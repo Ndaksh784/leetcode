@@ -1,0 +1,39 @@
+2381. Shifting Letters II
+
+class Solution {
+public:
+    string shiftingLetters(string s, vector<vector<int>>& shifts) {
+        vector<int>v(s.length(),0);
+        int sign;
+        for(auto shift:shifts){
+            int l=shift[0];
+            int r=shift[1];
+            int d=shift[2];
+            if(d==0){
+                sign=-1;
+            }
+            else{
+                sign=1;
+
+            }
+            v[l]+=1*sign;
+            if(r+1<s.length()){
+                v[r+1]-=1*sign;
+            }
+        }
+        string ans="";
+        int ps=0;
+        for(int i=0;i<s.size();i++){
+            ps+=v[i];
+            ps%=26;
+            if(ps<0){
+                ans+=(s[i]-'a'+ps+26)%26+'a';
+            }
+            else{
+                ans+=(s[i]-'a'+ps)%26+'a';
+            }
+        }
+        return ans;
+        
+    }
+};
