@@ -1,0 +1,29 @@
+2657. Find the Prefix Common Array of Two Arrays
+
+class Solution {
+public:
+    vector<int> findThePrefixCommonArray(vector<int>& A, vector<int>& B) {
+        int cnt=0;
+        int a=A.size();
+        vector<int>ans(a,0);
+        vector<int>freq(a+1,0);
+        for(int i=0;i<a;i++){
+            freq[A[i]]++;
+            if(freq[A[i]]==2){
+                cnt++;
+                
+
+            }
+            freq[B[i]]++;
+            if(freq[B[i]]==2){
+                cnt++;
+
+
+            }
+            ans[i]=cnt;
+           
+        }
+        return ans;
+        
+    }
+};
