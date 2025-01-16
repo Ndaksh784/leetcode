@@ -1,0 +1,52 @@
+2425. Bitwise XOR of All Pairings
+
+
+class Solution {
+public:
+    int xorAllNums(vector<int>& nums1, vector<int>& nums2) {
+        int n=nums1.size();
+        int m=nums2.size();
+        unordered_map<int,long>mpp;
+        for(int i:nums1){
+            mpp[i]+=m;
+        }
+        for(int i:nums2){
+            mpp[i]+=n;
+        }
+        int res=0;
+        for(auto i:mpp){
+            auto num=i.first;
+            auto freq=i.second;
+            if(freq%2!=0){
+                res=res^num;
+            }
+        }
+        return res;
+        
+    }
+};
+
+Approach 2
+class Solution {
+public:
+    int xorAllNums(vector<int>& nums1, vector<int>& nums2) {
+        int m = nums1.size();
+        int n = nums2.size();
+
+        int XOR = 0;
+
+        if(m % 2 != 0) { //m is of odd length
+            for(int &num : nums2) {
+                XOR ^= num;
+            }
+        }
+
+        if(n % 2 != 0) { //n is of odd length
+            for(int &num : nums1) {
+                XOR ^= num;
+            }
+        }
+
+        return XOR;
+    }
+};
