@@ -1,0 +1,48 @@
+407. Trapping Rain Water II
+
+class Solution {
+public:
+    typedef pair<int, pair<int, int>> pp;
+    vector<vector<int>> directions{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+    
+    int trapRainWater(vector<vector<int>>& heightMap) {
+        int m = heightMap.size();
+        if (m == 0) return 0; 
+        int n = heightMap[0].size();
+        if (n == 0) return 0;
+
+        priority_queue<pp, vector<pp>, greater<pp>> boundarycell;
+        vector<vector<bool>> visited(m, vector<bool>(n, false));
+
+        
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 || i == m - 1 || j == 0 || j == n - 1) {
+                    boundarycell.push({heightMap[i][j], {i, j}});
+                    visited[i][j] = true;
+                }
+            }
+        }
+
+        int water = 0;
+        while (!boundarycell.empty()) {
+            auto [height, cell] = boundarycell.top();
+            boundarycell.pop();
+            int i = cell.first;
+            int j = cell.second;
+
+            for (vector<int>& dir : directions) {
+                int i_ = i + dir[0];
+                int j_ = j + dir[1];
+
+                if (i_ >= 0 && i_ < m && j_ >= 0 && j_ < n && !visited[i_][j_]) {
+                    water += max(0, height - heightMap[i_][j_]);
+                    boundarycell.push({max(height, heightMap[i_][j_]), {i_, j_}});
+                    visited[i_][j_] = true;
+                }
+            }
+        }
+
+        return water;
+    }
+};
