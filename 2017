@@ -1,0 +1,55 @@
+2017 Grid game
+
+class Solution {
+    public:
+    int gridGame(vector<vector<int>>& grid) {
+    
+   
+        int n = grid[0].size();  // Number of columns in the grid
+    
+    // First robot's traversal
+        vector<vector<int>> firstRobotGrid = grid; // Copy of the grid for simulation
+            int r = 0, c = 0;  // Starting position for the first robot
+        while (r < 2 && c < n) {
+        // Decide whether to move right or down
+            if (r + 1 < 2 && (c + 1 == n || grid[r + 1][c] > grid[r][c + 1])) {
+                r++;  // Move down
+        }   else {
+                c++;  // Move right
+        }
+            firstRobotGrid[r][c] = 0;  // Mark the cell as visited by the first robot
+    }
+
+    // Second robot's BFS
+        priority_queue<vector<int>> pq;  // Max-heap for second robot
+        pq.push({grid[0][0], 0, 0});  // {points, row, column}
+        int maxPoints = 0;
+
+        while (!pq.empty()) {
+            vector<int> current = pq.top();
+            pq.pop();
+
+            int points = current[0];
+            int r = current[1];
+            int c = current[2];
+
+        // If the second robot reaches the destination, update maxPoints
+            if (r == 1 && c == n - 1) {
+                maxPoints = max(maxPoints, points);
+                continue;
+        }
+
+        // Explore the next cells
+            if (c + 1 < n) {
+                pq.push({points + firstRobotGrid[r][c + 1], r, c + 1});
+        }
+            if (r + 1 < 2) {
+                pq.push({points + firstRobotGrid[r + 1][c], r + 1, c});
+        }
+    }
+
+    return maxPoints;
+
+}
+
+};
