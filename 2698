@@ -1,0 +1,34 @@
+2698. Find the Punishment Number of an Integer
+
+class Solution {
+public:
+bool isValidPartition(string s, int target, int index, int currentSum) {
+    if (index == s.size()) return currentSum == target;
+
+    int num = 0;
+    for (int i = index; i < s.size(); i++) {
+        num = num * 10 + (s[i] - '0');
+        if (currentSum + num <= target) {
+            if (isValidPartition(s, target, i + 1, currentSum + num)) 
+                return true;
+        } else break;
+    }
+    return false;
+}
+
+ int punishmentNumber(int n) {
+    int total = 0;
+    for (int i = 1; i <= n; i++) {
+        int square = i * i;
+        string sqStr = to_string(square);
+        if (isValidPartition(sqStr, i, 0, 0)) {
+            total += square;
+        }
+    }
+    return total;
+}
+
+
+
+    
+};
