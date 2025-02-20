@@ -1,0 +1,53 @@
+1980. Find Unique Binary String
+
+1.using backtracking
+class Solution {
+public:
+    string answer;
+    bool found = false;
+    
+  
+    void backtrack(int n, string& candidate, const unordered_set<string>& inputSet) {
+        
+        if (candidate.size() == n) {
+            if (inputSet.find(candidate) == inputSet.end()) {
+                answer = candidate;
+                found = true;
+            }
+            return;
+        }
+        // Try adding '0' and '1' at the current position.
+        for (char bit : {'0', '1'}) {
+            candidate.push_back(bit);
+            backtrack(n, candidate, inputSet);
+            candidate.pop_back();  // Remove last bit (backtrack)
+            if (found) return;
+        }
+    }
+    
+    string findDifferentBinaryString(vector<string>& nums) {
+        int n = nums.size();
+        unordered_set<string> inputSet(nums.begin(), nums.end());
+        string candidate;
+        backtrack(n, candidate, inputSet);
+        return answer;
+    }
+};
+
+2nd approach
+class Solution {
+public:
+    string findDifferentBinaryString(vector<string>& nums) {
+        int n = nums.size();
+        
+        string result;
+        
+        for(int i = 0; i<n; i++) {
+            char ch = nums[i][i];
+            
+            result += (ch == '0') ? "1" : "0";
+        }
+        
+        return result;
+    }
+};
