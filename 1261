@@ -1,0 +1,61 @@
+1261. Find Elements in a Contaminated Binary Tree
+
+class FindElements {
+private:
+    unordered_set<int> recoveredValues;
+    TreeNode* root;
+
+    
+    void recover(TreeNode* node, int val) {
+        if (!node)
+            return;
+        node->val = val;
+        recoveredValues.insert(val);
+        
+            recover(node->left, 2 * val + 1);
+        
+            recover(node->right, 2 * val + 2);
+    }
+
+public:
+   
+    FindElements(TreeNode* root) : root(root) {
+        recover(root, 0);
+    }
+
+Approach 2
+
+    class FindElements {
+public:
+    unordered_set<int> recovered;
+    
+    FindElements(TreeNode* root) {
+        if (!root) return;
+        root->val = 0;
+        queue<TreeNode*> q;
+        q.push(root);
+        while (!q.empty()) {
+            TreeNode* node = q.front();
+            q.pop();
+            recovered.insert(node->val);
+            if (node->left) {
+                node->left->val = 2 * node->val + 1;
+                q.push(node->left);
+            }
+            if (node->right) {
+                node->right->val = 2 * node->val + 2;
+                q.push(node->right);
+            }
+        }
+    }
+    
+    bool find(int target) {
+        return recovered.find(target) != recovered.end();
+    }
+};
+    
+  
+    bool find(int target) {
+        return recoveredValues.find(target) != recoveredValues.end();
+    }
+};
