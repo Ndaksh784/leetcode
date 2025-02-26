@@ -1,0 +1,22 @@
+1749. Maximum Absolute Sum of Any Subarray
+
+class Solution {
+public:
+    int maxAbsoluteSum(vector<int>& nums) {
+        int n = nums.size();
+        
+        int maxsum = nums[0], currmaxsum = nums[0];
+        for (int i = 1; i < n; i++) {
+            currmaxsum = max(nums[i], nums[i] + currmaxsum);
+            maxsum = max(maxsum, currmaxsum);
+        }
+
+        int minsum = nums[0], currminsum = nums[0];
+        for (int i = 1; i < n; i++) {
+            currminsum = min(nums[i], nums[i] + currminsum);
+            minsum = min(minsum, currminsum);
+        }
+
+        return max(abs(minsum), abs(maxsum));
+    }
+};
