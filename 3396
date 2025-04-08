@@ -1,0 +1,26 @@
+
+3396. Minimum Number of Operations to Make Elements in Array Distinct
+class Solution {
+public:
+    int minimumOperations(vector<int>& nums) {
+        unordered_set<int> seen;
+        int n = nums.size();
+        int removeFromFront = 0;
+
+        for (int i = n - 1; i >= 0; --i) {
+            if (seen.count(nums[i])) {
+                removeFromFront = i + 1;
+                break;
+            }
+            seen.insert(nums[i]);
+        }
+
+        int operations;
+        if (removeFromFront % 3 == 0)
+            operations = removeFromFront / 3;
+        else
+            operations = (removeFromFront / 3) + 1;
+
+        return operations;
+    }
+};
